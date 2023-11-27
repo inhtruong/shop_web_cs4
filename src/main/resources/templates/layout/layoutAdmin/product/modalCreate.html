@@ -1,0 +1,80 @@
+<th:block th:fragment="modalCreate">
+  <div class="modal fade" id="modalCreate" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Modal create</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="area-error hide">
+          </div>
+          <form id="frmCreate" method="post">
+            <div class="row mb-3 mt-3">
+              <div class="col-lg-4">
+                <label for="productNameCre" class="form-label">Product name</label>
+                <input type="text" class="form-control" id="productNameCre" name="productNameCre">
+              </div>
+              <div class="col-lg-4">
+                <label for="priceCre" class="form-label">Price</label>
+                <input type="number" class="form-control" id="priceCre" name="priceCre">
+              </div>
+              <div class="col-lg-4">
+                <label for="branchCre" class="form-label">Branch</label>
+                <select id="branchCre" class="form-select"></select>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-lg-3">
+                <label for="warrantyCre" class="form-label">Warranty Period</label>
+                <input type="text" class="form-control" id="warrantyCre" name="warrantyCre" >
+              </div>
+              <div class="col-lg-3">
+                <label for="ramCre" class="form-label">Ram</label>
+                <input type="text" class="form-control" id="ramCre" name="ramCre" >
+              </div>
+              <div class="col-lg-3">
+                <label for="sizeCre" class="form-label">Size</label>
+                <input type="text" class="form-control" id="sizeCre"  name="sizeCre">
+              </div>
+              <div class="col-lg-3">
+                <label for="colorCre" class="form-label">Color</label>
+                <input type="text" class="form-control" id="colorCre" name="colorCre">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-lg-4">
+                <label for="cameraCre" class="form-label">Camera</label>
+                <input type="text" class="form-control" id="cameraCre" name="cameraCre" >
+              </div>
+              <div class="col-lg-4">
+                <label for="operatingCre" class="form-label">Operating System</label>
+                <input type="text" class="form-control" id="operatingCre" name="operatingCre" >
+              </div>
+              <div class="col-lg-4">
+                <label for="pinCre" class="form-label">Pin</label>
+                <input type="text" class="form-control" id="pinCre"  name="pinCre">
+              </div>
+              <div class="col-lg-4">
+                <label for="imageCre" class="form-label">Image</label>
+                <input type="file" class="form-control" id="imageCre" name="imageCre" accept="image/*" hidden>
+                <div class="img-area" data-img="">
+                  <i class='bx bxs-cloud-upload icon'></i>
+                  <p>Image size must be less than <span>2MB</span></p>
+                </div>
+                <button class="select-image">Select Image</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-outline-success" id="btnCreate">
+            <i class="fas fa-plus"></i>
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</th:block>

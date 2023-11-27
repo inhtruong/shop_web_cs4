@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<head>
+    <title>List of branchs</title>
+    <th:block th:replace="layout/layoutAdmin/head"/>
+</head>
+<body>
+<div id="wrapper">
+    <th:block th:replace="layout/layoutAdmin/sidebar"/>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Topbar -->
+            <th:block th:replace="layout/layoutAdmin/topbar"/>
+            <!-- End of Topbar -->
+
+            <div class="container-fluid">
+
+                <th:block th:replace="layout/layout_home/loading"></th:block>
+                <th:block th:replace="layout/layout_home/toast"></th:block>
+
+                <div class="row">
+
+                    <!-- Earnings (Monthly) Card Example -->
+
+                    <!-- Earnings (Monthly) Card Example -->
+                </div>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3" style="display: flex; justify-content: space-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Branch Management</h6>
+                        <div class="button-container">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#modalCreate">
+                                <i class="fas fa-plus"></i>
+                                Create new Branch
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Branch Name</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Begin Page Content -->
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+        <th:block th:replace="layout/layoutAdmin/branch/modalCreate"/>
+        <th:block th:replace="layout/layoutAdmin/branch/modalEdit"/>
+        <!-- Footer -->
+        <th:block th:replace="layout/layoutAdmin/footer"/>
+        <!-- End of Footer -->
+        <th:block th:replace="layout/layoutAdmin/modalLogout"/>
+    </div>
+</div>
+<script>
+    const page = {
+        url: {
+            createBranch: AppUtils.BASE_BRANCHS_API,
+            getBranch: AppUtils.BASE_BRANCHS_API + "/",
+            getAllBranchs: AppUtils.BASE_BRANCHS_API,
+            editBranch: AppUtils.BASE_BRANCHS_API +"/",
+        },
+        elements: {},
+        loadData: {},
+        commands: {}
+    }
+    page.elements.modalCreate = $('#modalCreate');
+    page.elements.frmCreate = $('#frmCreate');
+    page.elements.branchNameCre = $('#branchNameCre');
+    page.elements.btnCreate = $('#btnCreate');
+
+    page.elements.modalEdit = $('#modalEdit');
+    page.elements.frmEdit = $('#frmEdit');
+    page.elements.branchNameEdit = $('#branchNameEdit');
+    page.elements.btnEdit= $('#btnEdit');
+
+    page.elements.btnEditElems = $(".edit");
+
+    page.elements.bodyProduct = $("#dataTable tbody");
+    page.elements.loading = $('#loading');
+    let branchId = 0;
+
+    page.commands.getAllBranch = async () => {
+        return await $.ajax({
+            url: page.url.getAllBranchs
+        });
+    }
+
+
+    page.commands.getBranch = async (branchId) => {
+        const response = await $.ajax({
+            url: page.url.getBranch + branchId,
+            dataType: "json",
+        });
+        return response;
+    }
+
+
+    page.commands.handleClickEditButton = () => {
+        const btnEditElems = $(".edit");
+        $.each(btnEditElems, (index, item) => {
+            $(item).on("click", async () => {
+                console.log("123")
+                branchId = $(item).data("id");
+                const branch = await page.commands.getBranch(branchId);
+                $("#branchNameEdit").val(branch.branchName)
+                $("#modalEdit").modal("show");
+            })
+        })
+    }
+
+
+    page.commands.handleClickRow = () => {
+        page.commands.handleClickEditButton();
+    }
+
+
+    page.commands.unhandleClickRow = () => {
+        const btnEditElems = page.elements.btnEditElems;
+        $.each(btnEditElems, (index, item) => {
+            $(item).off("click")
+        })
+    }
+
+    page.loadData.renderBranch = async () => {
+        const branchs = await page.commands.getAllBranch();
+        branchs.forEach(item => {
+            const str = page.commands.renderBranch(item);
+            console.log(str)
+            page.elements.bodyProduct.prepend(str)
+        })
+        console.log(123)
+        page.commands.handleClickRow();
+    }
+
+
+    page.commands.renderBranch = (obj) => {
+        return `<tr id="tr_${obj.id}">
+                               <td>${obj.id}</td>
+                               <td>${obj.branchName}</td>
+                               <td>
+                                   <button class="btn btn-outline-success edit" data-id="${obj.id}">
+                                       <i class="fas fa-edit"></i>
+                                   </button>
+                               </td>
+                           </tr>
+`
+    }
+    $('#modalCreate').on('hidden.bs.modal', async () => {
+        $("#modalCreate .area-error").empty().addClass("hide")
+        $('#frmCreate').trigger('reset')
+        $('#frmCreate input').removeClass('error')
+        $('#frmCreate label.error').remove()
+    })
+    $('#modalEdit').on('hidden.bs.modal', async () => {
+        $("#modalEdit .area-error").empty().addClass("hide")
+        $('#frmEdit').trigger('reset')
+        $('#frmEdit input').removeClass('error')
+        $('#frmEdit label.error').remove()
+    })
+
+
+    page.elements.frmCreate.validate({
+        onkeyup: function (element) {
+            $(element).valid()
+        },
+        onclick: false,
+        onfocusout: false,
+        // rules: {
+        //     fullNameCre: {
+        //         required: true
+        //     },
+        //     addressCre: {
+        //         required: true
+        //     }
+        // },
+        // messages: {
+        //     fullNameCre: {
+        //         required: 'FullName is required'
+        //     },
+        //     addressCre: {
+        //         required: 'Address is required'
+        //     }
+        // },
+        errorLabelContainer: "#modalCreate .area-error",
+        errorPlacement: function (error, element) {
+            error.appendTo("#modalCreate .area-error");
+        },
+        showErrors: function (errorMap, errorList) {
+            if (this.numberOfInvalids() > 0) {
+                $("#modalCreate .area-error").removeClass("hide").addClass("show");
+            } else {
+                $("#modalCreate .area-error").removeClass("show").addClass("hide").empty();
+                $("#frmCreate input.error").removeClass("error");
+            }
+            this.defaultShowErrors();
+        },
+        submitHandler: () => {
+            page.commands.createBranch()
+        }
+    })
+
+
+    page.elements.frmEdit.validate({
+        onkeyup: function (element) {
+            $(element).valid()
+        },
+        onclick: false,
+        onfocusout: false,
+        // rules: {
+        //     fullNameCre: {
+        //         required: true
+        //     },
+        //     addressCre: {
+        //         required: true
+        //     }
+        // },
+        // messages: {
+        //     fullNameCre: {
+        //         required: 'FullName is required'
+        //     },
+        //     addressCre: {
+        //         required: 'Address is required'
+        //     }
+        // },
+        errorLabelContainer: "#modalEdit .area-error",
+        errorPlacement: function (error, element) {
+            error.appendTo("#modalEdit .area-error");
+        },
+        showErrors: function (errorMap, errorList) {
+            if (this.numberOfInvalids() > 0) {
+                $("#modalEdit .area-error").removeClass("hide").addClass("show");
+            } else {
+                $("#modalEdit .area-error").removeClass("show").addClass("hide").empty();
+                $("#frmEdit input.error").removeClass("error");
+            }
+            this.defaultShowErrors();
+        },
+        submitHandler: () => {
+            page.commands.editBranch()
+        }
+    })
+
+
+    page.commands.createBranch = () => {
+        const branchName = page.elements.branchNameCre.val();
+        const branch = {
+            branchName,
+        }
+        page.elements.btnCreate.prop("disabled", true);
+        page.elements.loading.removeClass('hide')
+        setTimeout(() => {
+            $.ajax(
+                {
+                    method: 'POST',
+                    url: page.url.createBranch,
+                    data: JSON.stringify(branch)
+                }
+            )
+                .done((data) => {
+                    const str = page.commands.renderBranch(data)
+                    page.elements.bodyProduct.prepend(str);
+                    page.elements.modalCreate.modal('hide');
+                    AppUtils.showSuccess("Create Branch Successfully")
+                    page.commands.unhandleClickRow();
+                    page.commands.handleClickRow();
+                })
+                .fail((err) => {
+                    const responseJSON = err.responseJSON
+                    AppUtils.showError("Create Branch Unsuccessfully")
+
+                    if (responseJSON) {
+                        let str = '<ul>'
+                        $.each(responseJSON, (k, v) => {
+                            if (k.includes('.')) {
+                                str += `<li><label for="${k.split('.')[1] + 'Cre'}">${v}</label></li>`
+                            } else {
+                                str += `<li><label for="${k + 'Cre'}">${v}</label></li>`
+                            }
+                        })
+                        str += '</ul>'
+                        $('#modalCreate .area-error').append(str).removeClass('hide').css('display', '')
+                    }
+                })
+                .always(() => {
+                    page.elements.btnCreate.prop("disabled", false);
+                    page.elements.loading.addClass('hide')
+                });
+        }, 1000);
+    }
+    page.commands.editBranch = () => {
+        const branchName = page.elements.branchNameEdit.val();
+        const branch = {
+            branchName,
+        }
+        page.elements.btnCreate.prop("disabled", true);
+        page.elements.loading.removeClass('hide')
+            $.ajax(
+                {
+                    method: 'PATCH',
+                    url: page.url.editBranch + branchId,
+                    data: JSON.stringify(branch)
+                }
+            )
+                .done((data) => {
+                    const str = page.commands.renderBranch(data)
+                    const updateRow = $('#tr_' + branchId)
+                    updateRow.replaceWith(str)
+                    page.elements.modalEdit.modal('hide');
+                    AppUtils.showSuccess("Edit Branch Successfully")
+                    page.commands.unhandleClickRow();
+                    page.commands.handleClickRow();
+                })
+                .fail((err) => {
+                    const responseJSON = err.responseJSON
+                    AppUtils.showError("Update Branch Unsuccessfully")
+                    if (responseJSON) {
+                        let str = '<ul>'
+                        $.each(responseJSON, (k, v) => {
+                            if (k.includes('.')) {
+                                str += `<li><label for="${k.split('.')[1] + 'Edit'}">${v}</label></li>`
+                            } else {
+                                str += `<li><label for="${k + 'Edit'}">${v}</label></li>`
+                            }
+                        })
+                        str += '</ul>'
+                        $('#modalEdit .area-error').append(str).removeClass('hide').css('display', '')
+                    }
+                })
+                .always(() => {
+                    page.elements.btnEdit.prop("disabled", false);
+                    page.elements.loading.addClass('hide')
+                });
+    }
+    page.elements.btnCreate.on('click', async () => {
+        page.elements.frmCreate.trigger('submit')
+    })
+
+    page.elements.btnEdit.on('click', async () => {
+        page.elements.frmEdit.trigger('submit')
+    })
+
+
+    $.ajaxSetup({
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+    $(async () => {
+        await page.loadData.renderBranch()
+    })
+
+
+</script>
+<th:block th:replace="layout/layoutAdmin/foot"/>
+</body>
+</html>

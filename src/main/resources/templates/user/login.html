@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Slider Login / Registration Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/user/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="/assets/alert-confirm-loading-web-toast/dist/webToast.min.css">
+</head>
+<body>
+
+
+<div class="container" id="container">
+    <div class="form-container register-container">
+        <div class="error-area hide" id="regError"></div>
+        <form id="registerForm">
+            <div class="formGroup" hidden="hidden">
+                <select id="role">
+<!--                    <option value="1">ADMIN</option>-->
+                    <option value="2">USER</option>
+                </select>
+            </div>
+            <h1>Register here.</h1>
+            <input type="text" id="usernameReg" name="username" placeholder="Username" required />
+
+            <input type="password" id="passwordReg" name="passwordReg" placeholder="Password" required />
+            <input type="password" id="rePasswordReg" name="rePasswordReg" placeholder="RePassword" required />
+            <button type="button" class="btn2" name="btn_save" id="btnRegister">SIGN UP</button>
+            <span>or use your account</span>
+            <div class="social-container">
+                <a href="#" class="social"><i class="lni lni-facebook-fill"></i></a>
+                <a href="#" class="social"><i class="lni lni-google"></i></a>
+                <a href="#" class="social"><i class="lni lni-linkedin-original"></i></a>
+            </div>
+        </form>
+    </div>
+
+    <div class="form-container login-container">
+        <form id="loginForm" class="login" action="" method="get">
+            <h1>Login here.</h1>
+            <input type="text" id="usernameLog" name="user_email" placeholder="User Name" required />
+            <input type="password" id="passwordLog" name="user_pass" placeholder="Password" required />
+            <div class="content">
+                <div class="checkbox">
+                    <input type="checkbox" name="checkbox" id="checkbox" />
+                    <label for="checkbox">Remember me</label>
+                </div>
+                <div class="pass-link">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+            <button type="button" name="btn_submit" class="btn2" id="btnLogin" >LOGIN</button>
+        </form>
+    </div>
+
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1 class="title">Hello<br>friends</h1>
+                <p>If you have an account, login here and have fun.</p>
+                <button class="ghost" id="login">Login <i class="lni lni-arrow-left login"></i></button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1 class="title">Start your<br>journey now</h1>
+                <p>If you don't have an account yet, join us and start your journey.</p>
+                <button class="ghost" id="register">Register <i class="lni lni-arrow-right register"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<script src="/assets/sweetalert2/v11.7.12/sweetalert2.all.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/assets/alert-confirm-loading-web-toast/dist/webToast.min.js"></script>
+<script src="/assets/user/login.js"></script>
+
+
+<script>
+
+    $(document).ready(function() {
+        $('.loginBtn').click(function(){
+            $('.login').show();
+            $('.signUp').hide();
+            $('.loginBtn').css({'border-bottom' : '2px solid #ff4141'});
+            $('.signUpBtn').css({'border-style' : 'none'});
+        });
+
+        $('.signUpBtn').click(function(){
+            $('.login').hide();
+            $('.signUp').show();
+            $('.signUpBtn').css({'border-bottom' : '2px solid #ff4141'});
+            $('.loginBtn').css({'border-style' : 'none'});
+        });
+
+        $('#btnRegister').on('click', function() {
+            // Validate input data
+            const username = $('#usernameReg').val();
+            const password = $('#passwordReg').val();
+            const rePassword = $('#rePasswordReg').val();
+            const roleId = $('#role').val();
+            const termsAgreed = $('#checkboxUp').is(':checked');
+
+            // Perform frontend validation
+            if (!username || !password || !rePassword || !roleId) {
+                webToast.Danger({
+                    status: 'Cảnh báo',
+                    message: 'Vui lòng nhập đầy đủ thông tin !!!',
+                    delay: 2000,
+                    align: 'topright'
+                });
+                return;
+            }
+
+            if (password !== rePassword) {
+                webToast.Danger({
+                    status: 'Cảnh báo',
+                    message: 'Mật khẩu và mật khẩu nhập lại không khớp. !!!',
+                    delay: 2000,
+                    align: 'topright'
+                });
+                return;
+            }
+            // Send AJAX request to register endpoint
+            const data = {
+                username: username,
+                password: password,
+                rePassword: rePassword,
+                roleId: roleId
+            };
+
+            $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'POST',
+                url: 'http://localhost:8080/api/auth/register',
+                data: JSON.stringify(data),
+                success: function() {
+                    webToast.Success({
+                        status: 'Đăng ký tài khoản thành công',
+                        message: '',
+                        delay: 2000,
+                        align: 'topright'
+                    });
+                    $('#usernameLog').val(username);
+                    $('#passwordLog').val(password);
+                    $('.loginBtn').click();
+                },
+                error: function(jqXHR) {
+                    if (jqXHR.status === 409) {
+                        webToast.Danger({
+                            status: 'Cảnh báo',
+                            message: 'Tài khoản đã được đăng ký. Vui lòng thử lại với tài khoản khác. !!!',
+                            delay: 2000,
+                            align: 'topright'
+                        });
+                    } else {
+                        webToast.Danger({
+                            status: 'Cảnh báo',
+                            message: 'Đã xảy ra lỗi. Vui lòng thử lại sau. !!!',
+                            delay: 2000,
+                            align: 'topright'
+                        });
+                    }
+                }
+            });
+        });
+
+        $('#btnLogin').on('click', function() {
+            const username = $('#usernameLog').val();
+            const password = $('#passwordLog').val();
+            if (!username || !password) {
+                webToast.Danger({
+                    status: 'Cảnh báo',
+                    message: 'Vui lòng nhập tên người dùng và mật khẩu. !!!',
+                    delay: 2000,
+                    align: 'topright'
+                });
+                return;
+            }
+            const
+                data = {
+                username: username,
+                password: password
+            };
+
+            $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'POST',
+                url: 'http://localhost:8080/api/auth/login',
+                data: JSON.stringify(data),
+                success: function() {
+                    webToast.Success({
+                        status: 'Đăng nhập thành công',
+                        message: '',
+                        delay: 2000,
+                        align: 'topright'
+                    });
+                    location.href = "/home";
+                },
+                error: function() {
+                    webToast.Danger({
+                        status: 'Cảnh báo',
+                        message: 'Đăng nhập thất bại. Vui lòng kiểm tra lại tên người dùng và mật khẩu. !!!',
+                        delay: 2000,
+                        align: 'topright'
+                    });
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+
+</html>

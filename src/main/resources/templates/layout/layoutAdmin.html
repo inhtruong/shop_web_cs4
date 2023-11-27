@@ -1,0 +1,70 @@
+<th:block  th:fragment="head">
+    <link href="/assets/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/assets/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <script src="/assets/jquery.min.js"></script>
+    <script src="/assets/jquery.validate.min.js"></script>
+</th:block>
+
+<th:block th:fragment="sidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/main">
+            <div class="sidebar-brand-icon">
+                <i class="fas fa-home"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">SHOPPING</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+
+        <li class="nav-item">
+            <a class="nav-link" href="/total?action=user">
+                <i class="fas fa-users-cog"></i>
+                <span>User Management</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/total?action=product" aria-expanded="true" >
+                <i class="fas fa-fw fa-table"></i>
+                <span>Product Management</span>
+            </a>
+        </li>
+
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/total?action=order" aria-expanded="true" >
+                <i class="fas fa-file-invoice"></i>
+                <span>Order Management</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/total?action=branch" aria-expanded="true" >
+                <i class="fas fa-mobile"></i>
+                <span>Branch Management</span>
+            </a>
+        </li>
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+    </ul>
+
+</th:block>
+
+<th:block  th:fragment="footer">
+    <script src="/assets/bootstrap.bundle.min.js"></script>
+    <script src="/assets/jquery.easing.min.js"></script>
+    <script src="/assets/sb-admin-2.min.js"></script>
+    <script src="/assets/jquery.dataTables.min.js"></script>
+    <script src="/assets/dataTables.bootstrap4.min.js"></script>
+    <script src="/assets/datatables-demo.js"></script>
+</th:block>
+
+

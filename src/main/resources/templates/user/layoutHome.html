@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shop Phone Web</title>
+    <th:block th:replace="layout/layout_home/header" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <th:block th:replace="layout/layout_home/topbar" />
+
+    <th:block th:replace="layout/layout_home/navbar" />
+
+
+    <th:block th:replace="layout/layout_home/feature" />
+
+
+<!--    <th:block th:replace="layout/layout_home/bestSale" />-->
+    <th:block th:replace="layout/layout_home/toast"></th:block>
+
+    <th:block th:replace="layout/layout_home/productShow" />
+
+
+    <!-- Vendor Start -->
+    <th:block th:replace="layout/layout_home/vender" />
+
+    <footer>
+        <th:block th:replace="layout/layout_home/footer" />
+    </footer>
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+</div>
+    <th:block th:replace="layout/layout_home/loading" />
+    <th:block th:replace="layout/layout_home/toast" />
+<script>
+ const idUser = 2;
+
+    const page = {
+        url: {},
+        elements: {},
+        loadData: {},
+        commands: {}
+    }
+    function showCart(){
+        window.location.href = "http://localhost:8080/cart/"
+    }
+
+    async function fetchALlProduct() {
+        return await $.ajax({
+            url: "http://localhost:8080/api/products"
+        })
+    }
+
+    async function fetchALlCartDetail(idUser) {
+        return await $.ajax({
+            url: "http://localhost:8080/api/cart/" + idUser
+        })
+    }
+
+    page.loadData.getAllProducts = async () => {
+        const products = await fetchALlProduct();
+
+        products.forEach(item => {
+            const str = page.commands.renderListProduct(item)
+            $('#listProduct').prepend(str);
+        });
+        const carts = await fetchALlCartDetail(idUser);
+        const qtyCartDetail = carts.length;
+            $('#qtyCartDetail').append(qtyCartDetail);
+    }
+
+    page.commands.renderListProduct = (obj) => {
+        return `
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="card product-item border-0 mb-4">
+                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                        <img class="img-fluid w-100" src="/assets/asset/img/iphone-15.jpg" alt="">
+                    </div>
+                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                        <h6 class="text-truncate mb-3">${obj.productName}</h6>
+                        <div class="d-flex justify-content-center">
+                            <h6>$${obj.price}</h6><h6 class="text-muted ml-2"><del>$${obj.price * 1.8}</del></h6>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between bg-light border">
+                        <a onclick=viewDetail(${obj.id}) class="btn btn-sm text-dark p-0" ><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                        <a onclick=addToCart(${obj.id}) class="btn btn-sm text-dark p-0" ><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                    </div>
+                </div>
+            </div>
+            `
+    }
+    function viewDetail(idProduct){
+        window.location.href = "http://localhost:8080/productDetail/" + idProduct;
+    }
+    async function addToCart(idProduct){
+        // const idUser = $('#idUser').val()
+         const cartDetailCreDTO = {
+            idProduct,
+            idUser :idUser
+        }
+        const qty = $('#qtyCartDetail').val()
+        console.log(qty);
+
+        await $.ajax(
+            {   headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                },
+                method: 'POST',
+                url: "http://localhost:8080/api/cart/addToCart",
+                data: JSON.stringify(cartDetailCreDTO)
+            }
+        ).done((data) => {
+            $('#qtyCartDetail').empty();
+             $('#qtyCartDetail').append(data.length);
+            AppUtils.showSuccess('Add to Cart successfully');
+        }).fail((err) => {
+            AppUtils.showError('This product is existing!!');
+        })
+    }
+    $(async () => {
+       await page.loadData.getAllProducts()
+    })
+
+</script>
+
+<!-- JavaScript Libraries -->
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+<script src="/assets/asset/lib/easing/easing.min.js"></script>
+<script src="/assets/asset/lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Contact Javascript File -->
+<script src="/assets/asset/mail/jqBootstrapValidation.min.js"></script>
+<script src="/assets/asset/mail/contact.js"></script>
+<link rel="stylesheet" href="/assets/toast/jquery.toast.min.css">
+<script src="/assets/toast/jquery.toast.min.js"></script>
+<script src="/assets/utils/appUtils.js"></script>
+<!-- Template Javascript -->
+<script src="/assets/asset/js/main.js"></script>
+
+</body>
+
+
+
+</html>

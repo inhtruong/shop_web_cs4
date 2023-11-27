@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<head>
+    <title>List of ban products</title>
+    <th:block th:replace="layout/layoutAdmin/head"/>
+</head>
+<body>
+<div id="wrapper">
+    <th:block th:replace="layout/layoutAdmin/sidebar"/>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Topbar -->
+            <th:block th:replace="layout/layoutAdmin/topbar"/>
+            <!-- End of Topbar -->
+
+            <div class="container-fluid">
+
+                <th:block th:replace="layout/layout_home/loading"></th:block>
+                <th:block th:replace="layout/layout_home/toast"></th:block>
+
+                <div class="row">
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            <a href="/products">PRODUCT</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users-cog fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            <a href="/products">PRODUCT IMPORT</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-tablet-alt fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Earnings (Monthly) Card Example -->
+                </div>
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3" style="display: flex; justify-content: space-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Product Management</h6>
+                        <div class="button-container">
+                            <span class="button-separator"></span>
+                            <a href="/products" class="btn btn-primary">
+                                <i class="fas fa-UnBan"></i>
+                                Product list</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="tableBanProduct" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Branch</th>
+                                    <th>Image</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Begin Page Content -->
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <th:block th:replace="layout/layoutAdmin/product/modalUnban"/>
+        <!-- Footer -->
+        <th:block th:replace="layout/layoutAdmin/footer"/>
+        <!-- End of Footer -->
+        <th:block th:replace="layout/layoutAdmin/modalLogout"/>
+    </div>
+</div>
+<script>
+    const page = {
+        url: {
+            getAllProductsBan: AppUtils.BASE_BANPRODUCT_API,
+            unBanProduct : AppUtils.BASE_UNBANPRODUCT_API+"/",
+            getProduct: AppUtils.BASE_PRODUCTS_API + "/",
+        },
+        elements: {},
+        loadData: {},
+        commands: {}
+    }
+    page.elements.modalUnBan = $('#modalUnBan');
+    page.elements.frmUnBan = $('#frmUnBan');
+    page.elements.productNameUnBan = $('#productNameUnBan');
+    page.elements.priceUnBan = $('#priceUnBan');
+    page.elements.branchUnBan = $('#branchUnBan');
+    page.elements.warrantyUnBan = $('#warrantyUnBan');
+    page.elements.ramUnBan = $('#ramUnBan');
+    page.elements.sizeUnBan = $('#sizeUnBan');
+    page.elements.colorUnBan = $('#colorUnBan');
+    page.elements.cameraUnBan = $('#cameraUnBan');
+    page.elements.operatingUnBan = $('#operatingUnBan');
+    page.elements.pinUnBan = $('#pinUnBan');
+    page.elements.btnUnBan = $('#btnUnBan');
+
+    page.elements.btnUnBanElems = $(".unBan");
+
+    page.elements.bodyBanProduct = $("#tableBanProduct tbody");
+    page.elements.loading = $('#loading');
+    let productId = 0;
+
+    page.commands.getAllProductBan = async () => {
+        return await $.ajax({
+            url: page.url.getAllProductsBan
+        });
+    }
+
+
+    page.commands.getProduct = async (productId) => {
+        const response = await $.ajax({
+            url: page.url.getProduct + productId,
+            dataType: "json",
+        });
+        return response;
+    }
+
+    page.commands.getAllBranch = async () => {
+        return await $.ajax({
+            url: page.url.getAllBranchs
+        });
+    }
+    page.commands.handleClickUnBanButton = () => {
+        const btnUnBanElems = $(".unBan");
+        $.each(btnUnBanElems, (index, item) => {
+            $(item).on("click", async () => {
+                console.log("123")
+                productId = $(item).data("id");
+                const product = await page.commands.getProduct(productId);
+                $("#productNameUnBan").val(product.productName)
+                $("#priceUnBan").val(product.price)
+                $("#branchUnBan").val(product.branch.branchName)
+                $("#warrantyUnBan").val(product.warrantyPeriod)
+                $("#ramUnBan").val(product.ram)
+                $("#sizeUnBan").val(product.size)
+                $("#colorUnBan").val(product.color)
+                $("#cameraUnBan").val(product.camera)
+                $("#operatingUnBan").val(product.operatingSystem)
+                $("#pinUnBan").val(product.pin)
+
+                $("#modalUnBan").modal("show");
+            })
+        })
+    }
+
+
+    page.commands.handleClickRow = () => {
+        page.commands.handleClickUnBanButton();
+    }
+
+    page.loadData.renderBanProduct = async () => {
+        const products = await page.commands.getAllProductBan();
+        products.forEach(item => {
+            const str = page.commands.renderProduct(item);
+            page.elements.bodyBanProduct.prepend(str)
+        })
+        page.commands.handleClickRow();
+    }
+    page.commands.renderProduct = (obj) => {
+        return `<tr id="tr_${obj.id}">
+                               <td>${obj.id}</td>
+                               <td>${obj.productName}</td>
+                               <td>${obj.quantity}</td>
+                               <td>${obj.branch.branchName}</td>
+                               <td><img src="${obj.image.fileUrl}" width="100px" /></td>
+                               <td>${obj.price}</td>
+                               <td>
+                                   <button class="btn btn-outline-success unBan" data-id="${obj.id}">
+                                       <i class="fas fa-ban"></i>
+                                   </button>
+                               </td>
+                           </tr>
+`
+    }
+
+    $('#modalUnBan').on('hidden.bs.modal', async () => {
+        $("#modalUnBan .area-error").empty().addClass("hide")
+    })
+
+    page.commands.unBanProduct = () => {
+        const productName = page.elements.productNameUnBan.val();
+        const product = {
+            productName
+        }
+        page.elements.btnUnBan.prop("disabled", true);
+        page.elements.loading.removeClass('hide')
+        $.ajax(
+            {
+                method: 'PATCH',
+                url: page.url.unBanProduct + productId,
+                data: JSON.stringify(product)
+            }
+        )
+            .done(() => {
+                const updateRow = $('#tr_' + productId)
+                updateRow.remove()
+                page.elements.modalUnBan.modal('hide');
+                AppUtils.showSuccess("UnBan Product Successfully")
+            })
+            .fail((err) => {
+                const responseJSON = err.responseJSON
+                AppUtils.showError("UnBan Unsuccessfully")
+                if (responseJSON) {
+                    let str = '<ul>'
+                    $.each(responseJSON, (k, v) => {
+                        if (k.includes('.')) {
+                            str += `<li><label for="${k.split('.')[1] + 'UnBan'}">${v}</label></li>`
+                        } else {
+                            str += `<li><label for="${k + 'UnBan'}">${v}</label></li>`
+                        }
+                    })
+                    str += '</ul>'
+                    $('#modalUnBan .area-error').append(str).removeClass('hide').css('display', '')
+                }
+            })
+            .always(() => {
+                page.elements.btnUnBan.prop("disabled", false);
+                page.elements.loading.addClass('hide')
+            });
+    }
+    page.elements.btnUnBan.on('click', async () => {
+        page.commands.unBanProduct();
+    })
+    $.ajaxSetup({
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+    $(async () => {
+        await page.loadData.renderBanProduct();
+    })
+
+
+</script>
+<th:block th:replace="layout/layoutAdmin/foot"/>
+</body>
+</html>

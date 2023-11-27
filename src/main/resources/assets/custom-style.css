@@ -1,0 +1,12 @@
+.area-error {
+    background-color: #ffd1d1;
+    padding: 10px 0 10px 0;
+}
+
+.area-error ul {
+    color: #c40000;
+    margin-bottom: 0;
+}
+.hide {
+    display: none;
+}

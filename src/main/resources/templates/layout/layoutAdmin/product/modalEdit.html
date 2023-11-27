@@ -1,0 +1,78 @@
+<th:block th:fragment="modalEdit">
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Modal edit</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="area-error hide">
+                    </div>
+                    <form id="frmEdit" method="post">
+                        <div class="row mb-3 mt-3">
+                            <div class="col-lg-4">
+                                <label for="productNameEdit" class="form-label">Product name</label>
+                                <input type="text" class="form-control" id="productNameEdit" name="productNameEdit">
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="priceEdit" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="priceEdit" name="priceEdit">
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="branchEdit" class="form-label">Branch</label>
+                                <select id="branchEdit" class="form-select"></select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-3">
+                                <label for="warrantyEdit" class="form-label">Warranty Period</label>
+                                <input type="text" class="form-control" id="warrantyEdit" name="warrantyEdit" >
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="ramEdit" class="form-label">Ram</label>
+                                <input type="text" class="form-control" id="ramEdit" name="ramEdit" >
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="sizeEdit" class="form-label">Size</label>
+                                <input type="text" class="form-control" id="sizeEdit"  name="sizeEdit">
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="colorEdit" class="form-label">Color</label>
+                                <input type="text" class="form-control" id="colorEdit" name="colorEdit">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-4">
+                                <label for="cameraEdit" class="form-label">Camera</label>
+                                <input type="text" class="form-control" id="cameraEdit" name="cameraEdit" >
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="operatingEdit" class="form-label">Operating System</label>
+                                <input type="text" class="form-control" id="operatingEdit" name="operatingEdit" >
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="pinEdit" class="form-label">Pin</label>
+                                <input type="text" class="form-control" id="pinEdit"  name="pinEdit">
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="imageEdit" class="form-label">Image</label>
+                                <input type="file" class="form-control" id="imageEdit"  name="imageEdit">
+                            </div>
+                            <div class="col-lg-4">
+                                <img id="imageShow" class="img-fluid" style="width: 200px;margin-top: 20px;">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-success" id="btnEdit">
+                        <i class="fas fa-plus"></i>
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

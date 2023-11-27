@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Shop Phone Web</title>
+    <th:block th:replace="layout/layout_home/header" />
+</head>
+
+<body>
+<div class="container-fluid">
+
+    <th:block th:replace="layout/layout_home/topbar" />
+
+    <th:block th:replace="layout/layout_home/navbarNotShow" />
+
+    <th:block th:replace="layout/layout_home/detailPhone" />
+
+    <footer>
+        <th:block th:replace="layout/layout_home/footer" />
+    </footer>
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+</div>
+    <th:block th:replace="layout/layout_home/loading" />
+    <th:block th:replace="layout/layout_home/toast" />
+
+
+<!--&lt;!&ndash; Modal Create &ndash;&gt;-->
+<!--<th:block th:replace="customer/modalCreate" />-->
+
+<!--&lt;!&ndash; Modal Update &ndash;&gt;-->
+<!--<th:block th:replace="customer/modalUpdate" />-->
+
+<!--&lt;!&ndash; Modal Transfer &ndash;&gt;-->
+<!--<th:block th:replace="customer/modalTransfer" />-->
+<script>
+    function adjustValueProduct() {
+        var inputElement = document.getElementById("qtyBuyNow");
+        // var value = parseFloat(inputElement.value);
+        var value = inputElement.value;
+        var min = 1
+        var max = parseFloat(document.getElementById("quantityProduct").innerText);
+        console.log(max);
+        console.log(min);
+        console.log(value);
+        if (isNaN(value) || value < min || value % 1 !== 0 || !isFinite(value)) {
+            inputElement.value = min;
+        } else if (value > max) {
+            inputElement.value = max;
+        }
+    }
+    function buyProductNow(){
+
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/asset/lib/easing/easing.min.js"></script>
+<script src="/assets/asset/lib/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Contact Javascript File -->
+<script src="/assets/asset/mail/jqBootstrapValidation.min.js"></script>
+<script src="/assets/asset/mail/contact.js"></script>
+
+<!-- Template Javascript -->
+<script src="/assets/asset/js/main.js"></script>
+</body>
+
+
+<!-- JavaScript Libraries -->
+
+</html>

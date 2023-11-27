@@ -1,0 +1,69 @@
+<th:block th:fragment="modalBan">
+    <div class="modal fade" id="modalBan" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Modal Ban</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="area-error hide">
+                    </div>
+                        <div class="row mb-3 mt-3">
+                            <div class="col-lg-4">
+                                <label for="productNameBan" class="form-label">Product name</label>
+                                <input type="text" class="form-control" id="productNameBan" name="productNameBan" disabled >
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="priceBan" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="priceBan" name="priceBan" disabled>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="branchBan" class="form-label">Branch</label>
+                                <input type="text" class="form-control" id="branchBan" name="branchBan" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-3">
+                                <label for="warrantyBan" class="form-label">Warranty Period</label>
+                                <input type="text" class="form-control" id="warrantyBan" name="warrantyBan" disabled >
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="ramBan" class="form-label">Ram</label>
+                                <input type="text" class="form-control" id="ramBan" name="ramBan" disabled>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="sizeBan" class="form-label">Size</label>
+                                <input type="text" class="form-control" id="sizeBan"  name="sizeBan" disabled>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="colorBan" class="form-label">Color</label>
+                                <input type="text" class="form-control" id="colorBan" name="colorBan" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-4">
+                                <label for="cameraBan" class="form-label">Camera</label>
+                                <input type="text" class="form-control" id="cameraBan" name="cameraBan" disabled >
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="operatingBan" class="form-label">Operating System</label>
+                                <input type="text" class="form-control" id="operatingBan" name="operatingBan" disabled >
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="pinBan" class="form-label">Pin</label>
+                                <input type="text" class="form-control" id="pinBan"  name="pinBan" disabled>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-danger" id="btnBan">
+                        <i class="fas fa-ban"></i>
+                        Ban
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
